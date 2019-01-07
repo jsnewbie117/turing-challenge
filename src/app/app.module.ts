@@ -6,10 +6,12 @@ import { MatImportsModule } from './@shared/mat-imports.module';
 import { CustomPipesModule } from './@shared/pipes/custom-pipes.module';
 
 import { AppComponent } from './app.component';
+import { LayoutSettingsComponent } from './layout-settings/layout-settings.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LayoutSettingsComponent
   ],
   imports: [
     BrowserModule,

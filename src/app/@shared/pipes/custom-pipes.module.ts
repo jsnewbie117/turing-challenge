@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { FromNowPipe } from './from-now.pipe';
+import { ReplaceUrlPipe } from './replace-url.pipe';
 
 const pipes = [
-  FromNowPipe
+  FromNowPipe,
+  ReplaceUrlPipe
 ];
 
 @NgModule({

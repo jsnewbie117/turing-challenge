@@ -3,21 +3,50 @@
     <div class="col">
       <div class="container">
         <h5 class="mb-4">Tweets</h5>
-        <div class="card mb-2" *ngFor="let tweet of tweets | async">
-          <div class="card-body">
-            <h6 class="card-title">
-              {{tweet.user.name}}
-              <span class="text-muted">@{{tweet.user.screen_name}}</span>
-              <br/>
-              <span class="small">{{tweet.created_at | fromNow}}</span>
-            </h6>
-            <p class="card-text">{{tweet.text}}</p>
+        <div class="row">
+          <div class="col-4" *ngFor="let group of tweets | async">
+            <div class="card mb-2" *ngFor="let tweet of group">
+              <div class="card-body">
+                <ng-container *ngIf="tweet.retweeted_status">
+                  <p class="small text-muted mb-1">Retweeted by @{{tweet.user.screen_name}}</p>
+                  <ng-container
+                    *ngTemplateOutlet="tweetContent; context: {tweet: tweet.retweeted_status}"></ng-container>
+                </ng-container>
+                <ng-container *ngIf="!tweet.retweeted_status">
+                  <ng-container *ngTemplateOutlet="tweetContent; context: {tweet: tweet}"></ng-container>
+                </ng-container>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="col-md-3">
       <h5 class="text-muted">Layout Settings</h5>
+      <app-layout-settings></app-layout-settings>
     </div>
   </div>
 </div>
+
+<ng-template #tweetContent let-tweet="tweet">
+  <div class="d-flex align-items-start mb-1">
+    <div>
+      <div class="rounded-circle text-truncate mr-2">
+        <img class="profile-pic" width="48px" [src]="tweet.user.profile_image_url">
+      </div>
+    </div>
+    <div>
+      <h6 class="card-title mt-1">
+        {{tweet.user.name}}
+        <span class="text-muted">@{{tweet.user.screen_name}}</span>
+        <br/>
+        <span class="small">{{tweet.created_at | fromNow}}</span>
+        <span class="mx-1">•</span>
+        <a class="small"
+           target="_blank"
+           href="https://twitter.com/{{tweet.user.screen_name}}/status/{{tweet.id_str}}">View on Twitter</a>
+      </h6>
+    </div>
+  </div>
+  <p class="card-text" [innerHtml]="tweet.text | replaceUrl"></p>
+</ng-template>
