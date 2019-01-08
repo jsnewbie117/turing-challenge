@@ -4,8 +4,8 @@
       <div class="container">
         <h5 class="mb-4">Tweets</h5>
         <div class="row">
-          <div class="col-4" *ngFor="let group of tweets | async">
-            <div class="card mb-2" *ngFor="let tweet of group">
+          <div class="col-4" *ngFor="let setting of settings">
+            <div class="card mb-2" *ngFor="let tweet of setting.tweets">
               <div class="card-body">
                 <ng-container *ngIf="tweet.retweeted_status">
                   <p class="small text-muted mb-1">Retweeted by @{{tweet.user.screen_name}}</p>
@@ -22,8 +22,7 @@
       </div>
     </div>
     <div class="col-md-3">
-      <h5 class="text-muted">Layout Settings</h5>
-      <app-layout-settings></app-layout-settings>
+      <app-layout-settings [settings]="settings"></app-layout-settings>
     </div>
   </div>
 </div>

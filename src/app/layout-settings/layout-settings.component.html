@@ -1,3 +1,100 @@
-<p>
-  layout-settings works!
-</p>
+<!--<h5 class="text-muted">Layout Settings</h5>-->
+<!--<form [formGroup]="globalsForm">-->
+<!--<label>-->
+<!--Default Color:-->
+<!--<input type="text" formControlName="defaultColor">-->
+<!--</label>-->
+<!--<button type="button" (click)="saveSettings()">Save</button>-->
+<!--</form>-->
+
+<h5 class="text-muted mt-5">Users</h5>
+<p>Drag and drop the panels to arrange the order of the users displayed.</p>
+<div cdkDropList (cdkDropListDropped)="drop($event)">
+  <form *ngFor="let setting of settings" [formGroup]="setting.settingsForm"
+        (ngSubmit)="applySettings(setting)"
+        class="my-2"
+        cdkDrag>
+    <mat-expansion-panel [hideToggle]="true" #panel>
+      <mat-expansion-panel-header class="py-2 h-auto" collapsedHeight="auto" expandedHeight="auto">
+        <mat-panel-title>
+          <div class="d-flex align-items-center mb-1">
+            <div>
+              <div class="rounded-circle text-truncate mr-2">
+                <img class="profile-pic" height="36px" [src]="setting.user.profile_image_url">
+              </div>
+            </div>
+            <div>
+              {{setting.user.name}}<br/>
+              <span class="text-muted">@{{setting.user.screen_name}}</span>
+            </div>
+          </div>
+        </mat-panel-title>
+        <mat-panel-description class="m-0">
+          <button mat-icon-button class="ml-auto" (click)="toggleEditSetting(setting, true, $event); panel.open()"
+                  *ngIf="!setting.editMode">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="ml-auto" (click)="toggleEditSetting(setting, false, $event)"
+                  *ngIf="setting.editMode">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="my-3">
+        <mat-slide-toggle formControlName="useGlobal">Use global settings</mat-slide-toggle>
+      </div>
+      <div class="my-2" *ngIf="!setting.settingsForm.value.useGlobal">
+        <label class="m-0">Tweet count: {{setting.settingsForm.value.tweetLimit}}</label>
+        <div class="d-flex align-items-center">
+          <span>1</span>
+          <mat-slider min="1" max="50" step="1" class="w-100" formControlName="tweetLimit"></mat-slider>
+          <span>50</span>
+        </div>
+      </div>
+      <div class="my-2" *ngIf="!setting.settingsForm.value.useGlobal">
+        <p class="mb-2">Filter tweet results by date:</p>
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field class="d-block" appearance="outline">
+              <mat-label>From</mat-label>
+              <input matInput [matDatepicker]="fromDatePicker"
+                     (focus)="fromDatePicker.open()"
+                     (click)="fromDatePicker.open()"
+                     formControlName="fromDate"
+                     [max]="maxDate"
+                     [required]="setting.settingsForm.value.toDate"
+                     readonly>
+              <button mat-button *ngIf="setting.settingsForm.value.fromDate" matSuffix mat-icon-button
+                      [disabled]="setting.settingsForm.disabled"
+                      (click)="setting.settingsForm.patchValue({ fromDate: null })">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-datepicker #fromDatePicker disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="d-block" appearance="outline">
+              <mat-label>To</mat-label>
+              <input matInput [matDatepicker]="toDatePicker"
+                     (focus)="toDatePicker.open()"
+                     (click)="toDatePicker.open()"
+                     formControlName="toDate"
+                     [max]="maxDate"
+                     [required]="setting.settingsForm.value.fromDate"
+                     readonly>
+              <button mat-button *ngIf="setting.settingsForm.value.toDate" matSuffix mat-icon-button
+                      [disabled]="setting.settingsForm.disabled"
+                      (click)="setting.settingsForm.patchValue({ toDate: null })">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-datepicker #toDatePicker disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <mat-action-row *ngIf="setting.editMode">
+        <button type="submit" mat-button>Apply</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </form>
+</div>

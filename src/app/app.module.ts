@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatImportsModule } from './@shared/mat-imports.module';
@@ -18,7 +19,8 @@ import { LayoutSettingsComponent } from './layout-settings/layout-settings.compo
     BrowserAnimationsModule,
     HttpClientModule,
     MatImportsModule,
-    CustomPipesModule
+    CustomPipesModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [ AppComponent ]
