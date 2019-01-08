@@ -6,6 +6,7 @@
 <!--</label>-->
 <!--<button type="button" (click)="saveSettings()">Save</button>-->
 <!--</form>-->
+<button mat-raised-button color="primary" (click)="saveSettings()">Save Settings</button>
 
 <h5 class="text-muted mt-5">Users</h5>
 <p>Drag and drop the panels to arrange the order of the users displayed.</p>
@@ -15,7 +16,7 @@
         class="my-2"
         cdkDrag>
     <mat-expansion-panel [hideToggle]="true" #panel>
-      <mat-expansion-panel-header class="py-2 h-auto" collapsedHeight="auto" expandedHeight="auto">
+      <mat-expansion-panel-header class="py-2 h-auto" collapsedHeight="auto" expandedHeight="auto" cdkDragHandle>
         <mat-panel-title>
           <div class="d-flex align-items-center mb-1">
             <div>

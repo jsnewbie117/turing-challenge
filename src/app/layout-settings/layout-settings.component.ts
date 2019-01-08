@@ -59,7 +59,9 @@ export class LayoutSettingsComponent implements OnInit {
     const savedSettings = JSON.parse(localStorage.getItem('settings'));
 
     if ( savedSettings ) {
-      // TODO: update settings form
+      savedSettings.forEach(setting => {
+        this.applySettings(this.addUser(setting.user, setting));
+      });
     } else {
       const defaultUsers = [ 'makeschool', 'newsycombinator', 'ycombinator' ];
       merge(...defaultUsers.map(user => this.getUser(user)))
@@ -82,24 +84,19 @@ export class LayoutSettingsComponent implements OnInit {
     }));
   }
 
-  addUser(user: TweetUserModel) {
+  addUser(user: TweetUserModel, setting?: UserSettingsModel) {
     const userSettings: UserSettingsModel = {
       ...this.initDefaultSetting(),
+      ...setting,
       username: user.screen_name,
       user: user
     };
+    this.toggleEditSetting(userSettings, false);
     this.settings.push(userSettings);
     return userSettings;
   }
 
   initDefaultSetting(): UserSettingsModel {
-    const settingsForm = this.fb.group({
-      tweetLimit: [ 30 ],
-      useGlobal: [ false ],
-      fromDate: [ null ],
-      toDate: [ null ]
-    });
-    settingsForm.disable();
     return {
       username: '',
       user: null,
@@ -107,7 +104,12 @@ export class LayoutSettingsComponent implements OnInit {
       tweetLimit: 30,
       fromDate: null,
       toDate: null,
-      settingsForm: settingsForm,
+      settingsForm: this.fb.group({
+        tweetLimit: [ 30 ],
+        useGlobal: [ false ],
+        fromDate: [ null ],
+        toDate: [ null ]
+      }),
       tweets: null,
       editMode: false,
       fetchingTweets: false
@@ -155,14 +157,22 @@ export class LayoutSettingsComponent implements OnInit {
     }).subscribe((value: TweetResponseModel[]) => {
       setting.tweets = value.filter(tweet => {
         const createdDate = +new Date(tweet.created_at);
-        return (!setting.toDate || createdDate <= +setting.toDate) && (!setting.fromDate || createdDate >= +setting.fromDate);
+        const to = setting.toDate;
+        const from = setting.fromDate;
+        return (!to || createdDate <= +new Date(to)) && (!from || createdDate >= +new Date(from));
       });
       setting.fetchingTweets = false;
     });
   }
 
   saveSettings() {
-    console.log(this.settings);
+    const settingsTemp = this.settings.map(setting => {
+      const temp = <UserSettingsModel>{ ...setting };
+      delete temp.settingsForm;
+      delete temp.tweets;
+      return temp;
+    });
+    localStorage.setItem('settings', JSON.stringify(settingsTemp));
   }
 
   drop(event: CdkDragDrop<string[]>) {
