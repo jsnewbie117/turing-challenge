@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { merge } from 'rxjs';
 import { map } from 'rxjs/internal/operators';
 import { TweetResponseModel, TweetUserModel } from '../@shared/models/tweet-response.model';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 
 export interface UserSettingsModel {
   username: string;
@@ -37,7 +38,8 @@ export class LayoutSettingsComponent implements OnInit {
   maxDate = new Date;
 
   constructor(private fb: FormBuilder,
-              private http: HttpClient) {
+              private http: HttpClient,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -173,6 +175,11 @@ export class LayoutSettingsComponent implements OnInit {
       return temp;
     });
     localStorage.setItem('settings', JSON.stringify(settingsTemp));
+    this.snackBar.open('Settings saved on device', '', <MatSnackBarConfig>{
+      duration: 2000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right'
+    });
   }
 
   drop(event: CdkDragDrop<string[]>) {

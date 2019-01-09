@@ -16,9 +16,10 @@
         class="my-2"
         cdkDrag>
     <mat-expansion-panel [hideToggle]="true" #panel>
-      <mat-expansion-panel-header class="py-2 h-auto" collapsedHeight="auto" expandedHeight="auto" cdkDragHandle>
+      <mat-expansion-panel-header class="py-2 px-2 h-auto" collapsedHeight="auto" expandedHeight="auto">
         <mat-panel-title>
           <div class="d-flex align-items-center mb-1">
+            <mat-icon class="text-muted mr-1" style="cursor: move;" cdkDragHandle>drag_indicator</mat-icon>
             <div>
               <div class="rounded-circle text-truncate mr-2">
                 <img class="profile-pic" height="36px" [src]="setting.user.profile_image_url">
@@ -34,10 +35,6 @@
           <button mat-icon-button class="ml-auto" (click)="toggleEditSetting(setting, true, $event); panel.open()"
                   *ngIf="!setting.editMode">
             <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button class="ml-auto" (click)="toggleEditSetting(setting, false, $event)"
-                  *ngIf="setting.editMode">
-            <mat-icon>close</mat-icon>
           </button>
         </mat-panel-description>
       </mat-expansion-panel-header>
@@ -63,7 +60,6 @@
                      (click)="fromDatePicker.open()"
                      formControlName="fromDate"
                      [max]="maxDate"
-                     [required]="setting.settingsForm.value.toDate"
                      readonly>
               <button mat-button *ngIf="setting.settingsForm.value.fromDate" matSuffix mat-icon-button
                       [disabled]="setting.settingsForm.disabled"
@@ -81,7 +77,6 @@
                      (click)="toDatePicker.open()"
                      formControlName="toDate"
                      [max]="maxDate"
-                     [required]="setting.settingsForm.value.fromDate"
                      readonly>
               <button mat-button *ngIf="setting.settingsForm.value.toDate" matSuffix mat-icon-button
                       [disabled]="setting.settingsForm.disabled"
@@ -94,7 +89,8 @@
         </div>
       </div>
       <mat-action-row *ngIf="setting.editMode">
-        <button type="submit" mat-button>Apply</button>
+        <button type="button" mat-button (click)="toggleEditSetting(setting, false, $event)">Cancel</button>
+        <button type="submit" class="ml-2" mat-flat-button color="primary">Apply</button>
       </mat-action-row>
     </mat-expansion-panel>
   </form>
