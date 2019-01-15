@@ -7,9 +7,9 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
-  MatNativeDateModule, MatProgressSpinnerModule,
+  MatNativeDateModule, MatProgressSpinnerModule, MatSidenavModule,
   MatSliderModule,
-  MatSlideToggleModule, MatSnackBarModule
+  MatSlideToggleModule, MatSnackBarModule, MatToolbarModule
 } from '@angular/material';
 
 
@@ -26,7 +26,9 @@ import {
     MatNativeDateModule,
     DragDropModule,
     MatSnackBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatSidenavModule
   ]
 })
 export class MatImportsModule {}

@@ -4,6 +4,7 @@ export interface TweetResponseModel {
   created_at: string;
   text: string;
   user: TweetUserModel;
+  retweeted_status: TweetResponseModel;
 }
 
 export interface TweetUserModel {

@@ -1,40 +1,49 @@
-<div class="container-fluid p-5">
-  <div class="row">
-    <div class="col">
-      <div class="container">
-        <div class="row">
-          <div class="col-4" *ngFor="let setting of settings">
-            <div class="d-flex mt-5 justify-content-center" *ngIf="setting.fetchingTweets">
-              <mat-progress-spinner
-                color="primary"
-                mode="indeterminate"
-                strokeWidth="3"
-                diameter="50">
-              </mat-progress-spinner>
-            </div>
-            <ng-container *ngIf="!setting.fetchingTweets">
-              <div class="card mb-2" *ngFor="let tweet of setting.tweets">
-                <div class="card-body">
-                  <ng-container *ngIf="tweet.retweeted_status">
-                    <p class="small text-muted mb-1">Retweeted by @{{tweet.user.screen_name}}</p>
-                    <ng-container
-                      *ngTemplateOutlet="tweetContent; context: {tweet: tweet.retweeted_status}"></ng-container>
-                  </ng-container>
-                  <ng-container *ngIf="!tweet.retweeted_status">
-                    <ng-container *ngTemplateOutlet="tweetContent; context: {tweet: tweet}"></ng-container>
-                  </ng-container>
-                </div>
-              </div>
-            </ng-container>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav
+               [mode]="mobileQuery.matches ? 'over' : 'side'"
+               [fixedInViewport]="mobileQuery.matches"
+               position="end">
+    <div class="p-3" style="width: 350px;">
+      <app-layout-settings [settings]="settings"></app-layout-settings>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="sidenav.toggle()" class="ml-auto">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+    <div class="settings-container container-fluid py-5">
+      <div class="row flex-nowrap">
+        <div class="col settings-column" *ngFor="let setting of settings">
+          <div class="d-flex mt-5 justify-content-center" *ngIf="setting.fetchingTweets">
+            <mat-progress-spinner
+              color="primary"
+              mode="indeterminate"
+              strokeWidth="3"
+              diameter="50">
+            </mat-progress-spinner>
           </div>
+          <ng-container *ngIf="!setting.fetchingTweets">
+            <div class="card mb-2" *ngFor="let tweet of setting.tweets">
+              <div class="card-body">
+                <ng-container *ngIf="tweet.retweeted_status">
+                  <p class="small text-muted mb-1">Retweeted by @{{tweet.user.screen_name}}</p>
+                  <ng-container
+                    *ngTemplateOutlet="tweetContent; context: {tweet: tweet.retweeted_status}"></ng-container>
+                </ng-container>
+                <ng-container *ngIf="!tweet.retweeted_status">
+                  <ng-container *ngTemplateOutlet="tweetContent; context: {tweet: tweet}"></ng-container>
+                </ng-container>
+              </div>
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>
-    <div class="col-md-3">
-      <app-layout-settings [settings]="settings"></app-layout-settings>
-    </div>
-  </div>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
 <ng-template #tweetContent let-tweet="tweet">
   <div class="d-flex align-items-start mb-1">
