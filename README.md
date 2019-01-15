@@ -1,27 +1,25 @@
-# TuringChallenge
+# Turing Challenge
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.4.
 
-## Development server
+This project is an entry for Turing Front-end Developer application using Twitter API to showcase my skills with Angular and UI/UX Development
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Setup
 
-## Code scaffolding
+Install global dependencies:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+`npm install -g @angular/cli http-server twitter-proxy`
 
-## Build
+Install the project dependencies:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+`npm install`
 
-## Running unit tests
+## Running
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Update config.json with your Twitter API credentials.
 
-## Running end-to-end tests
+Start the static and proxy servers:
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+`npm start`
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+This server will help you to get Twitter's API to send you tweets without you needing to do any authentication.  You don't need to modify server.js at all.
